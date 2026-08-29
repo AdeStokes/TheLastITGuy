@@ -6,8 +6,9 @@ public class HelpdeskUI : MonoBehaviour
 {
     public GameObject helpdeskPanel;
     public TextMeshProUGUI ticketListText;
-
     public PlayerMovement playerMovement;
+    public Transform ticketListContainer;
+    public TicketRowUI ticketRowPrefab;
 
     void Start()
     {
@@ -57,6 +58,17 @@ public class HelpdeskUI : MonoBehaviour
 
     void RefreshTickets()
     {
-        ticketListText.text = GameManager.Instance.GetTicketList();
+        foreach (Transform child in ticketListContainer)
+        {
+            Destroy(child.gameObject);
+        }
+
+        var tickets = GameManager.Instance.GetActiveTickets();
+
+        foreach (Ticket ticket in tickets)
+        {
+            TicketRowUI row = Instantiate(ticketRowPrefab, ticketListContainer);
+            row.Setup(ticket);
+        }
     }
 }

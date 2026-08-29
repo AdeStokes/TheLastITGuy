@@ -6,16 +6,13 @@ using System.Text;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
     [Header("Player Stats")]
     public int reputation = 0;
     public int budget = 0;
-
     [Header("HUD")]
     public TextMeshProUGUI reputationText;
     public TextMeshProUGUI budgetText;
     public TextMeshProUGUI ticketsText;
-
     private List<Ticket> activeTickets = new List<Ticket>();
 
     void Awake()
@@ -61,6 +58,11 @@ public class GameManager : MonoBehaviour
         UpdateHUD();
     }
 
+    public IReadOnlyList<Ticket> GetActiveTickets()
+    {
+        return activeTickets;
+    }
+    
     public string GetTicketList()
     {
         if (activeTickets.Count == 0)
