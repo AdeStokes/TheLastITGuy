@@ -1,33 +1,24 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class NPCInteractable : MonoBehaviour, IInteractable
 {
-    public string npcName = "Dave";
+    [Header("NPC Data")]
+    public NPCData npcData;
 
     [Header("Ticket")]
-    public ComputerInteractable computer;
+    [FormerlySerializedAs("computer")]
+    public MonoBehaviour ticketSource;
 
-    [Header("Dialogue")]
-    [TextArea]
-    public string openDialogue =
-        "Finally! I've been waiting ages.\n\n" +
-        "The internet's broken.\n" +
-        "I haven't touched anything.";
-
-    [TextArea]
-    public string diagnosedDialogue =
-        "Did you figure out what's wrong?";
-
-    [TextArea]
-    public string resolvedDialogue =
-        "The cable was unplugged?\n\n" +
-        "That's weird. I definitely didn't touch it.";
-
+    [Header("UI")]
     public DialogueUI dialogueUI;
 
     public string GetInteractionText()
     {
-        return $"[E] Talk to {npcName}";
+        if (npcData == null)
+            return "[E] Talk";
+
+        return $"[E] Talk to {npcData.npcName}";
     }
 
     public void Interact()
@@ -35,21 +26,39 @@ public class NPCInteractable : MonoBehaviour, IInteractable
         dialogueUI.OpenDialogue(this);
     }
 
+    public string GetNPCName()
+    {
+        if (npcData == null)
+            return "Unknown";
+
+        return npcData.npcName;
+    }
+
     public string GetDialogue()
     {
-        if (computer == null || computer.currentTicket == null)
+        if (npcData == null)
+            return "NPC data has not been configured.";
+
+        ITicketSource source = ticketSource as ITicketSource;
+
+        if (source == null)
             return "Everything seems to be working.";
 
-        switch (computer.currentTicket.status)
+        Ticket ticket = source.GetTicket();
+
+        if (ticket == null)
+            return "Everything seems to be working.";
+
+        switch (ticket.status)
         {
             case TicketStatus.Open:
-                return openDialogue;
+                return npcData.openDialogue;
 
             case TicketStatus.Diagnosed:
-                return diagnosedDialogue;
+                return npcData.diagnosedDialogue;
 
             case TicketStatus.Resolved:
-                return resolvedDialogue;
+                return npcData.resolvedDialogue;
 
             default:
                 return "...";

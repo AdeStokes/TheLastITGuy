@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ComputerInteractable : MonoBehaviour, IInteractable
+public class ComputerInteractable : MonoBehaviour, IInteractable, ITicketSource
 {
     public string computerName = "PC-014";
     public string userName = "Dave";
@@ -24,6 +24,11 @@ public class ComputerInteractable : MonoBehaviour, IInteractable
     public void Interact()
     {
         diagnosticUI.OpenComputer(this);
+    }
+
+    public Ticket GetTicket()
+    {
+        return currentTicket;
     }
 
     void Start()
