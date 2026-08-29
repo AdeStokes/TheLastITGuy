@@ -77,3 +77,4 @@ Esc - Close dialogue
 - Improve office visuals
 - Add additional NPCs and fault scenarios
 - Review ticket/diagnostic workflow for scalability
+- Add a header for the helpdesk after I deleted it by mistake
