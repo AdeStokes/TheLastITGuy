@@ -459,21 +459,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc92f697ef6c26644a253f62dab589e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteractable
-  npcName: Dave
+  npcData: {fileID: 11400000, guid: 6809238055ff70245a6753a7badd7205, type: 2}
   computer: {fileID: 1798656814}
-  openDialogue: 'Finally! I''ve been waiting ages.
-
-
-    The internet''s broken.
-
-    I
-    haven''t touched anything.'
-  diagnosedDialogue: Did you figure out what's wrong?
-  resolvedDialogue: 'The cable was unplugged?
-
-
-    That''s weird. I definitely didn''t
-    touch it.'
   dialogueUI: {fileID: 974233733}
 --- !u!136 &21171508
 CapsuleCollider:
