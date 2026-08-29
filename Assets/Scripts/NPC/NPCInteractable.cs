@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class NPCInteractable : MonoBehaviour, IInteractable
 {
@@ -6,7 +7,8 @@ public class NPCInteractable : MonoBehaviour, IInteractable
     public NPCData npcData;
 
     [Header("Ticket")]
-    public ComputerInteractable computer;
+    [FormerlySerializedAs("computer")]
+    public MonoBehaviour ticketSource;
 
     [Header("UI")]
     public DialogueUI dialogueUI;
@@ -37,10 +39,17 @@ public class NPCInteractable : MonoBehaviour, IInteractable
         if (npcData == null)
             return "NPC data has not been configured.";
 
-        if (computer == null || computer.currentTicket == null)
+        ITicketSource source = ticketSource as ITicketSource;
+
+        if (source == null)
             return "Everything seems to be working.";
 
-        switch (computer.currentTicket.status)
+        Ticket ticket = source.GetTicket();
+
+        if (ticket == null)
+            return "Everything seems to be working.";
+
+        switch (ticket.status)
         {
             case TicketStatus.Open:
                 return npcData.openDialogue;
