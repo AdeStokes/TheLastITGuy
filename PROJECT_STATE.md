@@ -20,11 +20,15 @@
 - GameStateManager
 - NPC interaction
 - Dialogue UI
+- Data-driven NPCs using NPCData ScriptableObjects
 - NPC dialogue changes based on ticket state
+- NPCs use ITicketSource rather than depending directly on computers
+- Multiple independent NPC/ticket chains supported
 
 ## Current NPCs
 
 ### Dave
+
 Computer: PC-014
 
 Ticket:
@@ -34,6 +38,30 @@ Fault:
 NetworkCableDisconnected
 
 Dialogue changes based on ticket state.
+
+### Sarah
+
+Computer: PC-015
+
+Ticket:
+"My computer won't turn on."
+
+Fault:
+PowerCableDisconnected
+
+Rewards:
+- Reputation: 15
+- Budget: 30
+
+Dialogue changes based on ticket state.
+
+## Architecture Notes
+
+- NPC identity and dialogue are stored in NPCData ScriptableObjects.
+- NPCInteractable references an ITicketSource.
+- ComputerInteractable implements ITicketSource.
+- This allows NPC dialogue to react to tickets without NPCs depending directly on ComputerInteractable.
+- Dave and Sarah have separate tickets and progress independently through Open, Diagnosed and Resolved states.
 
 ## Controls
 
@@ -45,7 +73,7 @@ Esc - Close dialogue
 
 ## Next Planned Work
 
-- Make NPCs data-driven
-- Add Sarah
 - Improve Helpdesk
 - Improve office visuals
+- Add additional NPCs and fault scenarios
+- Review ticket/diagnostic workflow for scalability
