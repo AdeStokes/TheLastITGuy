@@ -60,7 +60,7 @@ public class DialogueUI : MonoBehaviour
 
     public void OpenDialogue(NPCInteractable npc)
     {
-        nameText.text = npc.npcName;
+        nameText.text = npc.GetNPCName();
         dialogueText.text = npc.GetDialogue();
         closeHintText.text = "[E] Continue";
 
