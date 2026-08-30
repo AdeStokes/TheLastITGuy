@@ -94,6 +94,21 @@ public class HelpdeskUI : MonoBehaviour
         detailsDescriptionText.text = ticket.userDescription;
         detailsStatusText.text = ticket.status.ToString().ToUpper();
 
+        switch (ticket.status)
+        {
+            case TicketStatus.Open:
+                detailsStatusText.color = new Color(0.25f, 0.65f, 0.30f);
+                break;
+
+            case TicketStatus.Diagnosed:
+                detailsStatusText.color = new Color(0.95f, 0.65f, 0.15f);
+                break;
+
+            case TicketStatus.Resolved:
+                detailsStatusText.color = new Color(0.45f, 0.45f, 0.45f);
+                break;
+        }
+
         foreach (Transform child in ticketListContainer)
         {
             TicketRowUI row = child.GetComponent<TicketRowUI>();
