@@ -9,10 +9,19 @@ public class TicketRowUI : MonoBehaviour
     public TextMeshProUGUI computerNameText;
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI descriptionText;
+    public Image background;
     public Image statusBadge;
+    public Button button;
+    private Ticket ticket;
+    private HelpdeskUI helpdeskUI;
 
-    public void Setup(Ticket ticket)
+    public void Setup(Ticket ticket, HelpdeskUI helpdeskUI)
     {
+        this.ticket = ticket;
+        this.helpdeskUI = helpdeskUI;
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(OnTicketClicked);
+
         ticketNumberText.text = $"#{ticket.ticketNumber:000}";
         userNameText.text = ticket.userName;
         computerNameText.text = ticket.computerName;
@@ -41,5 +50,27 @@ public class TicketRowUI : MonoBehaviour
         }
 
         statusText.color = Color.white;
+    }
+
+    void OnTicketClicked()
+    {
+        helpdeskUI.SelectTicket(ticket);
+    }
+
+    public void SetSelected(bool selected)
+    {
+        if(selected)
+        {
+            background.color = new Color(0.25f, 0.35f, 0.45f);
+        }
+        else
+        {
+            background.color = Color.white;
+        }
+    }
+
+    public Ticket GetTicket()
+    {
+        return ticket;
     }
 }

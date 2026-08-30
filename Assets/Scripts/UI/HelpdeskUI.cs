@@ -9,10 +9,19 @@ public class HelpdeskUI : MonoBehaviour
     public PlayerMovement playerMovement;
     public Transform ticketListContainer;
     public TicketRowUI ticketRowPrefab;
+    private Ticket selectedTicket;
+    public TextMeshProUGUI emptyStateText;
+    public TextMeshProUGUI detailsTicketNumberText;
+    public TextMeshProUGUI detailsUserNameText;
+    public TextMeshProUGUI detailsComputerNameText;
+    public TextMeshProUGUI detailsDescriptionText;
+    public TextMeshProUGUI detailsStatusText;
+    public GameObject ticketDetailsContent;
 
     void Start()
     {
         helpdeskPanel.SetActive(false);
+        ticketDetailsContent.SetActive(false);
     }
 
     void Update()
@@ -68,7 +77,31 @@ public class HelpdeskUI : MonoBehaviour
         foreach (Ticket ticket in tickets)
         {
             TicketRowUI row = Instantiate(ticketRowPrefab, ticketListContainer);
-            row.Setup(ticket);
+            row.Setup(ticket, this);
+            row.SetSelected(ticket == selectedTicket);
+        }
+    }
+
+    public void SelectTicket(Ticket ticket)
+    {
+        selectedTicket = ticket;
+        emptyStateText.gameObject.SetActive(false);
+        ticketDetailsContent.SetActive(true);
+
+        detailsTicketNumberText.text = $"TICKET #{ticket.ticketNumber:000}";
+        detailsUserNameText.text = ticket.userName;
+        detailsComputerNameText.text = ticket.computerName;
+        detailsDescriptionText.text = ticket.userDescription;
+        detailsStatusText.text = ticket.status.ToString().ToUpper();
+
+        foreach (Transform child in ticketListContainer)
+        {
+            TicketRowUI row = child.GetComponent<TicketRowUI>();
+
+            if (row != null)
+            {
+                row.SetSelected(row.GetTicket() == selectedTicket);
+            }
         }
     }
 }
